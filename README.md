@@ -22,6 +22,10 @@ This project investigates a declarative, decoupled alternative:
 
 ---
 
+> This README focuses on the repository structure and implementation details. For a broader project background, architecture walkthrough, and case study diagrams, the [presentation slides](https://drive.google.com/file/d/1N0RoOYR53Mbn-hrKf2I7h46jqxknPHNF/view?usp=sharing) may be a more accessible starting point.
+
+---
+
 ## Repository Structure
 
 ```
