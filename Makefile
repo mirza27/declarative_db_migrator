@@ -2,14 +2,17 @@
 run-base:
 	docker compose -f docker-compose.base.yml --env-file .base.env up -d 
 
+down-base:
+	docker compose -f docker-compose.base.yml --env-file .base.env down
+
 run-pub:
 	docker compose -f docker-compose.publication.yml --env-file .publication.env up -d
 
-run-northwind:
-	docker compose -f docker-compose.northwind.yml --env-file .northwind.env up -d
+down-pub:
+	docker compose -f docker-compose.publication.yml --env-file .publication.env down
 
-run-chinook:
-	docker compose -f docker-compose.chinook.yml --env-file .chinook.env up -d
+client:
+	cd client && npm run dev
 
 # RUN worker
 executor:
@@ -77,34 +80,6 @@ pub-seed:
 	docker exec -i old_publication psql -U old_user -d old_publication_db < ./migration/publication/old/empty.sql
 	go run ./cmd/seeder/*.go
 
-# CHINOOK CASE
-add-new-chinook:
-	docker exec -i new_chinook psql -U new_user -d new_chinook_db < ./migration/chinook/new/up.sql
-
-drop-new-chinook:
-	docker exec -i new_chinook psql -U new_user -d new_chinook_db < ./migration/chinook/new/down.sql
-
-add-old-chinook:
-	docker exec -i old_chinook psql -U old_user -d old_chinook_db < ./migration/chinook/old/up.sql
-	docker exec -i old_chinook psql -U old_user -d old_chinook_db < ./migration/chinook/old/seed.sql
-
-drop-old-chinook:
-	docker exec -i old_chinook psql -U old_user -d old_chinook_db < ./migration/chinook/old/down.sql
 
 
-# NORTHWIND CASE
-add-new-northwind:
-	docker exec -i new_northwind psql -U new_user -d new_northwind_db < ./migration/northwind/new/up.sql
-
-drop-new-northwind:
-	docker exec -i new_northwind psql -U new_user -d new_northwind_db < ./migration/northwind/new/down.sql
-
-add-old-northwind:
-	docker exec -i old_northwind psql -U old_user -d old_northwind_db < ./migration/northwind/old/up.sql
-	docker exec -i old_northwind psql -U old_user -d old_northwind_db < ./migration/northwind/old/seed.sql
-
-drop-old-northwind:
-	docker exec -i old_northwind psql -U old_user -d old_northwind_db < ./migration/northwind/old/down.sql
-
-
-.PHONY: api
+.PHONY: api client
